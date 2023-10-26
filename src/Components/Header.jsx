@@ -18,7 +18,7 @@ function Header() {
         </form>
 
         <div  className="col-md-1 mt-auto mb-auto">
-          <button type="button" class="btn btn-success" style={{width:"120px", height:"40px"}}>My Cart</button>
+          <button type="button" class="btn btn-secondary" style={{width:"120px", height:"40px"}}>My Cart</button>
         </div> 
 
         <div  className="col-md-1 mt-auto mb-auto" >
