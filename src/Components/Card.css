@@ -1,0 +1,17 @@
+.card-container {
+    position: relative;
+  }
+   
+  .custom-arrow-right {
+    position: absolute;
+    top: 100%;
+    left: 80%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 2;
+    cursor: pointer;
+  }
+   
+  .card-container:hover .custom-arrow-right {
+    display: block;
+  }
