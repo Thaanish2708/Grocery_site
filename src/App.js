@@ -60,7 +60,7 @@ function App() {
 
   return (
     <div className="App container-fluid" style={{ marginBottom: "200px" }}>
-      <Header />
+      <Header data={cartData}/>
       <hr style={{ marginTop: "-5px" }} />
       <div style={{ padding: "0px 110px" }}>
         <Banner />

@@ -4,7 +4,7 @@ import LoginModal from './LoginModal';
 import './LoginModal.css'; // Create a new CSS file for your custom styles
 
 
-function Header() {
+function Header({data}) {
   
 
   return (
@@ -22,6 +22,7 @@ function Header() {
 
         <div  className="col-md-1 mt-auto mb-auto p-0">
         <img src='download.png' height="25vw" width="25vw" /><span>
+        <p>{data.totalValue}</p>
           <button type="button" class="btn" style={{width:"5vw", padding:"0px"}}>My Cart</button> </span>
         </div> 
 
