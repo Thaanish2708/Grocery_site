@@ -15,33 +15,8 @@ function App() {
     
   };
   console.log("CART DATA",cartData);
-  const categories = ["cat1", "cat2"]; // Add all your categories here
-  const products = [{
-    "id":1,
-    "name":"Ornage",
-    "size":"200g",
-    "pirce":"110"},
-    {
-      "id":2,
-      "name":"Apple",
-      "size":"200g",
-      "pirce":"110"},
-    {
-      "id":3,
-      "name":"Banana",
-      "size":"200g",
-      "pirce":"110"},
-    {
-      "id":4,
-      "name":"Kiwi",
-      "size":"200g",
-      "pirce":"110"},
-    {
-      "id":5,
-      "name":"Carrot",
-      "size":"200g",
-      "pirce":"110"},
-  ]
+  const categories = [1, 2]; // Add all your categories here
+  // const products = []
 
 
   useEffect(() => {
@@ -60,16 +35,16 @@ function App() {
 
   const getProductlist = async (category) => {
     try {
-      if(category=="cat1"){
-        return products
-      }
+      // if(category=="cat1"){
+      //   return products
+      // }
       
-      const response = fetch("", {
+      const response = await fetch(`http://localhost:8080/category/${category}`, {
         method: "GET",
       });
 
       if (response.status === 200) {
-          const data =  response.json();
+          const data =  await response.json();
           console.log("Products", data);
           return data;
         // Reset the form or perform any other actions as needed

@@ -28,12 +28,13 @@ function Card(props){
         setSuccess(true)
         setQuantity(quantity + 1);
         try {
-            const response = await fetch("", {
+            console.log(quantity);
+            const response = await fetch(`http://localhost:8080/users/6/cart`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: {"productId":props.product.id,"quantity":quantity+1}
+              body: JSON.stringify({"productId":props.product.id,"quantity":1})
             });
      
             if (response.status === 201) {
@@ -51,13 +52,35 @@ function Card(props){
 
     }
 
-    const incrementQuantity = () => {
+    const incrementQuantity = async() => {
         setSuccess(true)
         setQuantity(quantity + 1);
         console.log(props.product.id,quantity);
+        try {
+            console.log(quantity);
+            const response = await fetch(`http://localhost:8080/users/6/cart`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({"productId":props.product.id,"quantity":1})
+            });
+     
+            if (response.status === 201) {
+                const data = await response.json();
+
+                props.onAddToCart(data)
+            } else {
+                console.log(response);
+                console.log(response.status);
+              console.error("Failed to add employee.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
     };
 
-    const decrementQuantity = () => {
+    const decrementQuantity = async() => {
         
         if (quantity > 0) {
         setQuantity(quantity - 1);
@@ -66,6 +89,30 @@ function Card(props){
         if(quantity === 1){
             setSuccess(false)
         }
+        try {
+            console.log(quantity);
+            const response = await fetch(`http://localhost:8080/users/6/cart`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({"productId":props.product.id,"quantity":-1})
+              
+            });
+            
+     
+            if (response.status === 201) {
+                const data = await response.json();
+
+                props.onAddToCart(data)
+            } else {
+                console.log(response);
+                console.log(response.status);
+              console.error("Failed to add employee.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
     };
 
     
