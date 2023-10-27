@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Card from './Card';
 import './Card.css';
 
-function ProdList({ categoryName, productList}) {
+function ProdList({ categoryName, productList, onAddToCart}) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);
 
@@ -33,7 +33,7 @@ function ProdList({ categoryName, productList}) {
       <Slider {...settings} ref={sliderRef}>
         {productList.map((product, index) => (
           <div key={index} className="card-container">
-            <Card />
+            <Card product={product}  onAddToCart={onAddToCart} />
           </div>
         ))}
       </Slider>
