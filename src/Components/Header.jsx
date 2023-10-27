@@ -10,22 +10,22 @@ function Header() {
   return (
     
       <div class="row m-0 ">
-        <div className='col-md-1' style={{height:"15%",marginRight:"15px"}}>
+        <div className='col-md-auto' style={{height:"15%",marginRight:"15px"}}>
           <img src="./logo.png" alt="logo" height="100vw" />
         </div>
         
 
         <form class="col-md-8 mt-auto mb-auto" role="search">
-          <input type="search" class="form-control text" placeholder="Search..." aria-label="Search" size="100" />
+          <input type="search" class="form-control text" placeholder="Search..." aria-label="Search" width="100vw" />
         </form>
         
 
-        <div  className="col-md-1 mt-auto mb-auto" style={{marginLeft:"50px"}}>
+        <div  className="col-md-1 mt-auto mb-auto p-0">
         <img src='download.png' height="25vw" width="25vw" /><span>
-          <button type="button" class="btn" style={{width:"8vw"}}>My Cart</button> </span>
+          <button type="button" class="btn" style={{width:"5vw", padding:"0px"}}>My Cart</button> </span>
         </div> 
 
-        <div  className="col-md-1 mt-auto mb-auto" >
+        <div  className="col-md-auto mt-auto mb-auto" >
           <LoginModal />
         </div>
 

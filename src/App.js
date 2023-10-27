@@ -7,7 +7,42 @@ import React, { useState, useEffect } from 'react';
 
 function App() {
   const [productData, setProductData] = useState({});
+  const [cartData, setCartData] = useState({});
+
+  const handleAddToCart = (data) => {
+    // Handle the data received from the Card component, e.g., add it to the cart
+    setCartData(data);
+    
+  };
+  console.log("CART DATA",cartData);
   const categories = ["cat1", "cat2"]; // Add all your categories here
+  const products = [{
+    "id":1,
+    "name":"Ornage",
+    "size":"200g",
+    "pirce":"110"},
+    {
+      "id":2,
+      "name":"Apple",
+      "size":"200g",
+      "pirce":"110"},
+    {
+      "id":3,
+      "name":"Banana",
+      "size":"200g",
+      "pirce":"110"},
+    {
+      "id":4,
+      "name":"Kiwi",
+      "size":"200g",
+      "pirce":"110"},
+    {
+      "id":5,
+      "name":"Carrot",
+      "size":"200g",
+      "pirce":"110"},
+  ]
+
 
   useEffect(() => {
     // Fetch data for each category and store it in productData
@@ -25,6 +60,9 @@ function App() {
 
   const getProductlist = async (category) => {
     try {
+      if(category=="cat1"){
+        return products
+      }
       
       const response = fetch("", {
         method: "GET",
@@ -63,7 +101,7 @@ function App() {
         <Category />
         </div>
         {categories.map((category, index) => (
-          <ProdList key={index} categoryName={category} productList={productData[category] || []} />
+          <ProdList key={index} categoryName={category} onAddToCart={handleAddToCart} productList={productData[category] || []} />
         ))}
         </div>
       </div>
