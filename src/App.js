@@ -15,7 +15,7 @@ function App() {
     
   };
   console.log("CART DATA",cartData);
-  const categories = [1, 2]; // Add all your categories here
+  const categories = ["Vegetables", "Fruits"]; // Add all your categories here
   // const products = []
 
 
@@ -39,7 +39,7 @@ function App() {
       //   return products
       // }
       
-      const response = await fetch(`http://localhost:8080/category/${category}`, {
+      const response = await fetch(`http://localhost:8080/category/name/${category}`, {
         method: "GET",
       });
 
