@@ -28,12 +28,13 @@ function Card(props){
         setSuccess(true)
         setQuantity(quantity + 1);
         try {
-            const response = await fetch("", {
+            console.log(quantity);
+            const response = await fetch(`http://localhost:8080/users/6/cart`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: {"productId":props.product.id,"quantity":quantity+1}
+              body: JSON.stringify({"productId":props.product.id,"quantity":1})
             });
      
             if (response.status === 201) {
@@ -51,13 +52,35 @@ function Card(props){
 
     }
 
-    const incrementQuantity = () => {
+    const incrementQuantity = async() => {
         setSuccess(true)
         setQuantity(quantity + 1);
         console.log(props.product.id,quantity);
+        try {
+            console.log(quantity);
+            const response = await fetch(`http://localhost:8080/users/6/cart`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({"productId":props.product.id,"quantity":1})
+            });
+     
+            if (response.status === 201) {
+                const data = await response.json();
+
+                props.onAddToCart(data)
+            } else {
+                console.log(response);
+                console.log(response.status);
+              console.error("Failed to add employee.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
     };
 
-    const decrementQuantity = () => {
+    const decrementQuantity = async() => {
         
         if (quantity > 0) {
         setQuantity(quantity - 1);
@@ -66,12 +89,36 @@ function Card(props){
         if(quantity === 1){
             setSuccess(false)
         }
+        try {
+            console.log(quantity);
+            const response = await fetch(`http://localhost:8080/users/6/cart`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({"productId":props.product.id,"quantity":-1})
+              
+            });
+            
+     
+            if (response.status === 201) {
+                const data = await response.json();
+
+                props.onAddToCart(data)
+            } else {
+                console.log(response);
+                console.log(response.status);
+              console.error("Failed to add employee.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
     };
 
     
     return <div className="col-md-1 m-3" style={styles}>
         <img 
-        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+        src={props.product.imageUrl}
         alt="profile pic" 
         style={imageStyle}>
 
@@ -79,10 +126,10 @@ function Card(props){
 
         <div style={{textAlign:"left",width:"179px",height:"130px"}}>
             <p style={{fontWeight:"600",marginLeft:"10px", color:"rgb(31, 31, 31)",height:"36px"}}> {props.product.name} </p>
-            <p style={{fontWeight:"100",marginLeft:"10px",height:"36px"}}> {props.product.size} </p>
+            <p style={{fontWeight:"100",marginLeft:"10px",height:"36px"}}> {props.product.portionSize} </p>
 
             <div style={{display:"flex"}}>
-            <p style={{fontWeight:"500",marginLeft:"10px",height:"36px"}}> {props.product.price} </p>
+            <p style={{fontWeight:"500",marginLeft:"10px",height:"36px"}}> ₹{props.product.price} </p>
             {success ?
             <div style={{marginLeft:"50px",borderRadius: "3px",width:"80px",height: "30px",color:"rgb(49, 134, 22)",backgroundColor:"rgb(247, 255, 249)",display:"flex"}}>
                 
