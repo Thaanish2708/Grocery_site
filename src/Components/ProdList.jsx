@@ -12,8 +12,8 @@ function ProdList({ categoryName, productList, onAddToCart}) {
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: productList.length > 5 ? 6 : productList.length,
-    slidesToScroll: productList.length > 5 ? 6 : productList.length,
+    slidesToShow: productList.length > 5 ? 5 : productList.length,
+    slidesToScroll: productList.length > 5 ? 5 : productList.length,
   };
  
 
