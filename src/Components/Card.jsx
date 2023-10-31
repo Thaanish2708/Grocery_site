@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import "./Card.css"
 function Card(props){
 
@@ -23,6 +23,10 @@ function Card(props){
     const [quantity, setQuantity] = useState(0);
 
     const [success, setSuccess] = useState(false)
+    const [cartQty, setCartQty] = useState(0)
+    const [btndis, setBtnDis] = useState(true)
+    console.log("cartqty",cartQty);
+    
 
     const  addClick = async() => {
         setSuccess(true)
@@ -55,7 +59,7 @@ function Card(props){
     const incrementQuantity = async() => {
         setSuccess(true)
         setQuantity(quantity + 1);
-        console.log(props.product.id,quantity);
+        console.log(props.product.id,quantity+cartQty);
         try {
             console.log(quantity);
             const response = await fetch(`http://localhost:8080/users/6/cart`, {
@@ -115,42 +119,90 @@ function Card(props){
           }
     };
 
+    useEffect(() => {
+    const getcart = async (userId ) => {
+      try {
+        
+        const response = await fetch(`http://localhost:8080/users/6/cart`, {
+          method: "GET",
+        });
+        console.log("adfsfg");
+  
+        if (response.status === 200) {
+            const data =  await response.json();
+            props.onAddToCart(data)
+            console.log("cartItems",data);
+            data.cartItems.map((p,index) => {
+              // console.log(props.product.name,p.quantity,props.product.availableQty);
+              // console.log("pid",p.productId,props.product.id);
+              if(p.productId === props.product.id){
+                
+                setCartQty(p.quantity)
+              
+              
+                
+              }
+              console.log("t r f",(props.product.availableQty <= 0 || cartQty >= props.product.availableQty)&&p.productId === props.product.id);
+              setBtnDis(!(props.product.availableQty <= 0 || cartQty >= props.product.availableQty));
+              
+            })
+            //console.log("Products", data);
+            
+          // Reset the form or perform any other actions as needed
+        } else {
+            console.log(response);
+            console.log(response.status);
+          console.error("Failed to add employee.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      };
+
+      
+    }; 
+    getcart();
+    }, []);
     
     return <div className="col-md-1 m-3" style={styles}>
-        <img 
-        src={props.product.imageUrl}
-        alt="profile pic" 
-        style={imageStyle}>
+              <img 
+              src={props.product.imageUrl}
+              alt="profile pic" 
+              style={imageStyle}>
 
-        </img>
+              </img>
 
-        <div style={{textAlign:"left",width:"179px",height:"130px"}}>
-            <p style={{fontWeight:"600",marginLeft:"10px", color:"rgb(31, 31, 31)",height:"36px"}}> {props.product.name} </p>
-            <p style={{fontWeight:"100",marginLeft:"10px",height:"36px"}}> {props.product.portionSize} </p>
+              <div style={{textAlign:"left",width:"179px",height:"130px"}}>
+                  <p style={{fontWeight:"600",marginLeft:"10px", color:"rgb(31, 31, 31)",height:"36px"}}> {props.product.name} </p>
+                  <p style={{fontWeight:"100",marginLeft:"10px",height:"36px"}}> {props.product.portionSize} </p>
 
-            <div style={{display:"flex"}}>
-            <p style={{fontWeight:"500",marginLeft:"10px",height:"36px"}}> ₹{props.product.price} </p>
-            {success ?
-            <div style={{marginLeft:"50px",borderRadius: "3px",width:"80px",height: "30px",color:"rgb(49, 134, 22)",backgroundColor:"rgb(247, 255, 249)",display:"flex"}}>
-                
-                
-                <button className="btn btn-success"  onClick={decrementQuantity}>-</button>
-                <p style={{marginLeft:"2px",marginRight:"2px",fontWeight:"bold"}}>{quantity}</p> 
-                <button className="btn btn-success" style={{textAlign:"center",lineHeight:"-6"}} onClick={incrementQuantity}>+</button>
-                
+                  <div style={{display:"flex"}}>
+                  <p style={{fontWeight:"500",marginLeft:"10px",height:"36px"}}> ₹{props.product.price} </p>
+                  {success ?
+                  <div style={{marginLeft:"50px",borderRadius: "3px",width:"80px",height: "30px",color:"rgb(49, 134, 22)",backgroundColor:"rgb(247, 255, 249)",display:"flex"}}>
+                      
+                      
+                      <button className="btn btn-success"  onClick={decrementQuantity}>-</button>
+                      <p style={{marginLeft:"2px",marginRight:"2px",fontWeight:"bold"}}>{quantity}</p> 
+                      <button className="btn btn-success" disabled = {props.product.availableQty-1 < quantity+cartQty}  style={{textAlign:"center",lineHeight:"-6"}} onClick={incrementQuantity}>+</button>
+                      
 
-            </div>
-            :
-            <button style={{marginLeft:"50px",border: "1px solid rgb(49, 134, 22)",borderRadius: "3px",width:"66px" ,height: "30px",color:"rgb(49, 134, 22)",backgroundColor:"rgb(247, 255, 249)"}} onClick={addClick}>
-                Add
-            </button>} 
-            
+                  </div>
+                  :
+                  <button style={{border: "1px solid rgb(49, 134, 22)", marginLeft: "50px", borderRadius: "3px", width: "66px", height: "30px", color: "rgb(49, 134, 22)", backgroundColor: cartQty >= props.product.availableQty ? "rgb(0, 0, 0)" : "rgb(247, 255, 249)" }} onClick={addClick} disabled={cartQty >= props.product.availableQty}>
+                      Add
+                  </button>
 
-            </div>
+                  
+                  } 
 
-        </div>
+                  
+
+                  </div>
+
+              </div>
         
     </div>
+
 }
 
 export default Card;
