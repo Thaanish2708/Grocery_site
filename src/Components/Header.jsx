@@ -2,9 +2,17 @@ import './LoginModal.css'; // Create a new CSS file for your custom styles
 
 import LoginModal from './LoginModal';
 import './LoginModal.css'; // Create a new CSS file for your custom styles
+import { Navigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 
 function Header({data}) {
+  const navigate = useNavigate();
+
+  function showCart(){
+    navigate('/cart')
+
+  }
   
 
   return (
@@ -22,8 +30,8 @@ function Header({data}) {
 
         <div  className="col-md-1 mt-auto mb-auto p-0">
         <img src='download.png' height="25vw" width="25vw" /><span>
-        <p>{data.totalValue}</p>
-          <button type="button" class="btn" style={{width:"5vw", padding:"0px"}}>My Cart</button> </span>
+        <p>₹{data.totalValue}</p>
+          <button type="button" class="btn" style={{width:"5vw", padding:"0px"}} onClick={showCart}>My Cart</button> </span>
         </div> 
 
         <div  className="col-md-auto mt-auto mb-auto" >
