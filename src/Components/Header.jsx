@@ -4,15 +4,20 @@ import LoginModal from './LoginModal';
 import './LoginModal.css'; // Create a new CSS file for your custom styles
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
 
 
 function Header({data}) {
   const navigate = useNavigate();
 
   function showCart(){
-    navigate('/cart')
+    navigate('/cart',{ state: data })
 
   }
+
+  const [id,setId] = useState(0)
+
+console.log("Id",id);
   
 
   return (
@@ -35,7 +40,7 @@ function Header({data}) {
         </div> 
 
         <div  className="col-md-auto mt-auto mb-auto" >
-          <LoginModal />
+          <LoginModal  setId={setId}/>
         </div>
 
       </div>
