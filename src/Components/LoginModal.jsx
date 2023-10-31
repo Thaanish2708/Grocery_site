@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './LoginModal.css'; // Create a new CSS file for your custom styles
 
-function LoginModal() {
+function LoginModal({setId}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
 
@@ -12,6 +12,12 @@ function LoginModal() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const [Loggedin,setLoggedIn] = useState(false)
+
+  function changeUsericon(){
+    setLoggedIn(true)
+
+  }
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,14 +44,23 @@ function LoginModal() {
   const [showPassword, setShowPassword] = useState(false);
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    const mailid = {"sharan@g1.com":"pass1"}
+    
     // console.log("submitted");
     
       // Check if email is already registered and then proceed with registration
-      // You need backend logic for this
-      if(!(email in mailid)){
+      // You need backend logic for this\
+      const response = await fetch(`http://localhost:8080/users/check?mail=${email}`, {
+          method: "GET",
+        });
+  
+        if (response.status === 200) {
+          console.log("resp",response);
+            const data3 =  await response.text();
+            console.log("dataaaa",data3);
+      
+      if(data3==="false"){
         setIsRegistering(true)
         setShowPassword(false);
         // console.log("registering");
@@ -58,23 +73,58 @@ function LoginModal() {
         setShowPassword(true);
         // console.log("ssss");
         // console.log(email);
-      }
+      }}
 
       if(isRegistering){
-        // post user in B
-      }
-      else if(!isRegistering && password){
+        const response1 = await fetch(`http://localhost:8080/users/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body:JSON.stringify({"name":name,"email":email,"password" : password})
+        });
+  
+        if (response1.status === 200) {
+            const data1 =  await response1.text();
+
+            console.log(data1);
+            closeModal();
+            setLoggedIn(true)
         
-        if(mailid[email] === password)
+      }}
+      else if(!isRegistering && password){
+        console.log("Logging in");
+        const response2 = await fetch(`http://localhost:8080/users/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body:JSON.stringify({"email":email,"password" : password})
+        });
+        console.log("response1",response2);
+  
+        if (response2.status === 200) {
+            const data2 =  await response2.text();
+            console.log(data2);
+        
+      
+      if(data2 != "Incorrect Password" )
         {
             // get userid from B (addcart userid)
             console.log("User Logged in");
+            const [userid,name1] = data2.split(' ')
+            setId(userid)
+            setName(name1)
+            setLoggedIn(true)
             setWrongpass(false)
+            closeModal();
         }
         else
         {
+
           setWrongpass(true)
         }
+      }
       }
       
     
@@ -82,8 +132,8 @@ function LoginModal() {
 
   return (
     <div>
-      <button onClick={openModal} className="btn btn-primary">Login</button>
-
+      { !Loggedin && <button onClick={openModal} className="btn btn-primary">Login</button>}
+      { Loggedin && <p> {name} </p>}
       {isModalOpen && (
         <div className="modal-container">
           <div className="background-overlay" onClick={closeModal}></div>
@@ -112,7 +162,7 @@ function LoginModal() {
                     />
                   </div>)}
 
-                  {showPassword && wrongpass && (<div className="form-group">
+                  {showPassword && wrongpass && !isRegistering && (<div className="form-group">
                     
                     <label style={{color:"red"}}> Wrong Password</label>
                   </div>)}
