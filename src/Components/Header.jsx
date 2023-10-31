@@ -10,7 +10,7 @@ function Header({data}) {
   const navigate = useNavigate();
 
   function showCart(){
-    navigate('/cart')
+    navigate('/cart',{ state: data })
 
   }
   
