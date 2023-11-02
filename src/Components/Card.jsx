@@ -34,7 +34,7 @@ function Card(props){
         setQuantity(quantity + 1);
         try {
             console.log(quantity);
-            const response = await fetch(`http://localhost:8080/users/6/cart`, {
+            const response = await fetch(`http://localhost:8080/users/${props.id}/cart`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -63,7 +63,7 @@ function Card(props){
         console.log(props.product.id,quantity+cartQty);
         try {
             console.log(quantity);
-            const response = await fetch(`http://localhost:8080/users/6/cart`, {
+            const response = await fetch(`http://localhost:8080/users/${props.id}/cart`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -96,7 +96,7 @@ function Card(props){
         }
         try {
             console.log(quantity);
-            const response = await fetch(`http://localhost:8080/users/6/cart`, {
+            const response = await fetch(`http://localhost:8080/users/${props.id}/cart`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -121,11 +121,10 @@ function Card(props){
     };
 
     useEffect(() => {
-    const getcart = async (userId ) => {
-
+    const getcart = async () => {
       try {
         
-        const response = await fetch(`http://localhost:8080/users/6/cart`, {
+        const response = await fetch(`http://localhost:8080/users/${props.id}/cart`, {
           method: "GET",
         });
         console.log("adfsfg");
@@ -161,9 +160,15 @@ function Card(props){
       };
 
       
-    }; 
-    getcart();
-    }, []);
+    };
+
+    if(props.id == -1)
+    {
+
+    } 
+    else
+    {getcart();}
+    }, [props.id]);
     
     return <div className="col-md-1 m-3" style={styles}>
               <img 

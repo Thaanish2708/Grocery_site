@@ -1,34 +1,33 @@
 import React, { useState } from 'react';
 import './LoginModal.css'; // Create a new CSS file for your custom styles
 
-function LoginModal({setId}) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function LoginModal({setId,openModal, closeModal,isModalOpen, Loggedin, setLoggedIn}) {
+
   const [isRegistering, setIsRegistering] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-  const [Loggedin,setLoggedIn] = useState(false)
-
-  function changeUsericon(){
-    setLoggedIn(true)
-
-  }
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [message,setMessage] = useState(false)
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,16}$/;
+
+    
+      
+    if (passwordPattern.test(value)) {
+      setMessage(true)
+    }
+    else{
+      setMessage(false)
+    }
     setPassword(e.target.value);
   };
 
@@ -86,6 +85,7 @@ function LoginModal({setId}) {
   
         if (response1.status === 200) {
             const data1 =  await response1.text();
+            setId(data1)
 
             console.log(data1);
             closeModal();
@@ -129,11 +129,12 @@ function LoginModal({setId}) {
       
     
   };
+  console.log(Loggedin);
 
   return (
     <div>
       { !Loggedin && <button onClick={openModal} className="btn btn-primary">Login</button>}
-      { Loggedin && <p> {name} </p>}
+      { Loggedin && <p> {name.charAt(0).toUpperCase() + name.slice(1)} </p>}
       {isModalOpen && (
         <div className="modal-container">
           <div className="background-overlay" onClick={closeModal}></div>
@@ -143,7 +144,7 @@ function LoginModal({setId}) {
               <div className="form-group">
                 <input
                   type="email"
-                  className="form-control"
+                  className="form-control mt-1"
                   id="email"
                   placeholder="Enter your email"
                   value={email}
@@ -154,7 +155,7 @@ function LoginModal({setId}) {
                     
                     <input
                       type="password"
-                      className="form-control"
+                      className="form-control mt-1"
                       id="password"
                       placeholder="Enter your password"
                       value={password}
@@ -175,7 +176,7 @@ function LoginModal({setId}) {
                   
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control mt-1"
                       id="name"
                       placeholder="Enter your name"
                       value={name}
@@ -186,7 +187,7 @@ function LoginModal({setId}) {
                     
                     <input
                       type="password"
-                      className="form-control"
+                      className="form-control mt-1"
                       id="password"
                       placeholder="Enter your password"
                       value={password}
@@ -197,25 +198,42 @@ function LoginModal({setId}) {
                     
                     <input
                       type="password"
-                      className="form-control"
+                      className="form-control mt-1"
                       id="confirmPassword"
                       placeholder="Confirm your password"
                       value={confirmPassword}
                       onChange={handleConfirmPasswordChange}
                     />
                   </div>
+                  {!message && password !== '' &&  (
+          <div style={{ color: 'red' }}>Passwords is weak.</div>
+        )}
+                  {password !== confirmPassword && confirmPassword !== ''  && (
+ 
+                    <div style={{ color: 'red' }}>Passwords do not match.</div>
+
+                    )}
+
+                    {password === confirmPassword && password !== '' && (
+
+                    <div style={{ color: 'green' }}>Passwords match.</div>
+
+ )}
                 </>
               )}
-              <button type="submit" className="btn btn-primary btn-block" disabled={
+              
+              <button type="submit" style={{ margin: "auto", marginRight: "auto" }}
+  className="btn btn-primary btn-block d-flex justify-content-center mt-2" disabled={
     !email ||
     (isRegistering
-      ? !name || !password || !confirmPassword
+      ? !name || !password || !confirmPassword || (password !== confirmPassword)
       : showPassword ? !password : false)
   }>
                 {isRegistering ? 'Register' : 'Login'}
               </button>
-              <p className="mt-2" onClick={() => setIsRegistering(!isRegistering)}>
-                {isRegistering ? 'Already have an account? Login' : "Don't have an account? Register"}
+              <p className="mt-2" style={{
+cursor: 'pointer',  color:"#516078"}} onClick={() => setIsRegistering(!isRegistering)}>
+                {isRegistering ? <span>Already have an account? <u>Login</u></span> : <span>Don't have an account? <u>Register</u></span>}
               </p>
             </form>
           </div>

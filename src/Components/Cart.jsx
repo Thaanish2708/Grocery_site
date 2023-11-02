@@ -4,30 +4,29 @@ import CartCard from "./CartCard";
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react";
 
-function Cart() {
+function Cart({openModal, closeModal, isModalOpen, id, setId, Loggedin, setLoggedIn}) {
 
     const location = useLocation();
     const data = location.state
 
     const [cartItems, setCartItems] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
 
-    const [hover, setHover] = useState(false)
+    const [cartData, setCartData] = useState({});
+
+  const handleAddToCart = (data) => {
+    // Handle the data received from the Card component, e.g., add it to the cart
+    setCartData(data);
     
+  };
+  
 
-    function onHoverIn(){
-        setHover(true)
-    }
-
-    function onHoverOut(){
-        setHover(false)
-    }
+    console.log("cart",cartItems);
 
     useEffect(() => {
         const getcart = async (userId ) => {
           try {
             
-            const response = await fetch(`http://localhost:8080/users/6/cart`, {
+            const response = await fetch(`http://localhost:8080/users/${id}/cart`, {
               method: "GET",
             });
       
@@ -58,15 +57,16 @@ function Cart() {
           } catch (error) {
             console.error("Error:", error);
           };
-    
           
-        }; 
+          
+        };
+        
         getcart();
         }, []);
     
     return (
         <div className="App container-fluid" style={{ marginBottom: "200px" }}>
-            <Header data={data}/>
+            
             <hr style={{ marginTop: "-5px" }} />
             <div style={{padding: "0px 110px"}}>
             <h3 style={{textAlign:"left"}}> Your Cart </h3>
