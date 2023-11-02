@@ -134,7 +134,7 @@ function LoginModal({setId,openModal, closeModal,isModalOpen, Loggedin, setLogge
   return (
     <div>
       { !Loggedin && <button onClick={openModal} className="btn btn-primary">Login</button>}
-      { Loggedin && <p> {name.charAt(0).toUpperCase() + name.slice(1)} </p>}
+      { Loggedin && <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center" ,padding:"0px"}}> <img src='profile.png' height="25vw" width="25vw" /> <p style={{fontWeight:"bold", margin:"0px"}}> {name.charAt(0).toUpperCase() + name.slice(1)} </p> </div>}
       {isModalOpen && (
         <div className="modal-container">
           <div className="background-overlay" onClick={closeModal}></div>
