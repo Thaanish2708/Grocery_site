@@ -36,10 +36,10 @@ function Header({data,  openModal, closeModal,isModalOpen, id, setId, Loggedin, 
         </form>
         
 
-        <div  className="col-md-1 mt-auto mb-auto p-0">
-        <img src='download.png' height="25vw" width="25vw" /><span>
-        {Loggedin && (<p>₹{data.totalValue}</p>)}
-          <button type="button" class="btn" style={{width:"5vw", padding:"0px"}} onClick={showCart}>My Cart</button> </span>
+        <div  className="col-md-1 mt-auto mb-auto p-0" style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
+        <img src='cart.png' height="25vw" width="25vw" />
+        {Loggedin && (<p style={{margin:"0px"}}>₹{data.totalValue}</p>)}
+          <button type="button" class="btn" style={{width:"5vw", padding:"0px"}} onClick={showCart}>My Cart</button> 
         </div> 
 
         <div  className="col-md-auto mt-auto mb-auto" >

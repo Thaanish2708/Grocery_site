@@ -13,14 +13,28 @@ function Cart({openModal, closeModal, isModalOpen, id, setId, Loggedin, setLogge
 
     const [cartData, setCartData] = useState({});
 
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    const [qty, setQty] = useState(0);
+
+    const [hover, setHover] = useState(false);
+
   const handleAddToCart = (data) => {
     // Handle the data received from the Card component, e.g., add it to the cart
     setCartData(data);
     
   };
   
-
+console.log(id);
     console.log("cart",cartItems);
+
+    function onHoverIn(){
+        setHover(true)
+    }
+ 
+    function onHoverOut(){
+        setHover(false)
+    }
 
     useEffect(() => {
         const getcart = async (userId ) => {
@@ -33,6 +47,9 @@ function Cart({openModal, closeModal, isModalOpen, id, setId, Loggedin, setLogge
             if (response.status === 200) {
                 const data =  await response.json();
                 setTotalPrice(data.totalValue);
+                console.log("sdf",data);
+                console.log(data.cartItemsCount);
+                setQty(data.cartItemsCount)
                 const promises = data.cartItems.map(async(prod, index) => {
 
                     const response1 = await fetch(`http://localhost:8080/products/${prod.productId}`, {
@@ -82,7 +99,6 @@ function Cart({openModal, closeModal, isModalOpen, id, setId, Loggedin, setLogge
 
                     <div className="col-md-4 col-sm-12 p-0 m-0">
                         <div style={{
-                            height: "30%",
                             border: "1.25px solid black",
                             borderRadius: "5px",
                             padding: "20px",
@@ -95,7 +111,7 @@ function Cart({openModal, closeModal, isModalOpen, id, setId, Loggedin, setLogge
                         }}>
 
                             <p> </p>
-                            <p style={{ fontSize: "24px",}}>Subtotal({cartItems.length} items): <span style={{fontWeight:"bold"}}>₹{totalPrice}</span></p>
+                            <p style={{ fontSize: "1.5rem",}}>Subtotal({qty} items): <span style={{fontWeight:"bold"}}>₹{totalPrice}</span></p>
                             <button style={{
                                 width:"90%",
                                 backgroundColor: hover ? "rgb(247, 255, 249)": "rgb(49, 134, 22)",
@@ -109,7 +125,7 @@ function Cart({openModal, closeModal, isModalOpen, id, setId, Loggedin, setLogge
                             }} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}>Proceed to Pay</button>
 
                         </div>
-                        <div style={{ height: "70%",                            
+                        <div style={{                            
                             border: "1.25px solid black",
                             borderRadius: "5px",
                             padding: "20px",
