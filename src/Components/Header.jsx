@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 
 function Header({data}) {
+
   const navigate = useNavigate();
 
   function showCart(){
@@ -34,9 +35,9 @@ console.log("Id",id);
         
 
         <div  className="col-md-1 mt-auto mb-auto p-0">
-        <img src='download.png' height="25vw" width="25vw" /><span>
-        <p>₹{data.totalValue}</p>
-          <button type="button" class="btn" style={{width:"5vw", padding:"0px"}} onClick={showCart}>My Cart</button> </span>
+          <img src='cart.png' height="25vw" width="25vw" />
+          <p style={{margin:"0px"}}>₹{data.totalValue}</p>
+          <button type="button" class="btn" style={{width:"5vw", padding:"0px"}} onClick={showCart}>My Cart</button> 
         </div> 
 
         <div  className="col-md-auto mt-auto mb-auto" >

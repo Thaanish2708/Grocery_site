@@ -24,11 +24,12 @@ function Card(props){
 
     const [success, setSuccess] = useState(false)
     const [cartQty, setCartQty] = useState(0)
-    const [btndis, setBtnDis] = useState(true)
+    
     console.log("cartqty",cartQty);
     
 
     const  addClick = async() => {
+      
         setSuccess(true)
         setQuantity(quantity + 1);
         try {
@@ -121,6 +122,7 @@ function Card(props){
 
     useEffect(() => {
     const getcart = async (userId ) => {
+
       try {
         
         const response = await fetch(`http://localhost:8080/users/6/cart`, {
@@ -142,8 +144,8 @@ function Card(props){
               
                 
               }
-              console.log("t r f",(props.product.availableQty <= 0 || cartQty >= props.product.availableQty)&&p.productId === props.product.id);
-              setBtnDis(!(props.product.availableQty <= 0 || cartQty >= props.product.availableQty));
+              
+              
               
             })
             //console.log("Products", data);

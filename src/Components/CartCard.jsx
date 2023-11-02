@@ -3,7 +3,8 @@
 function CartCard({data}){
 
     return(
-        <div class="card mb-3" style={{maxWidth: "100vw", borderLeft: "none", borderRight: "none", borderRadius:"0px"}}>
+        <>
+        <div class="card m-0" style={{maxWidth: "100vw", borderLeft: "none", borderRight: "none", borderRadius:"0px",borderTop:"none"}}>
                             <div class="row no-gutters p-2 ">
                                 <div class="col-md-4 " >
                                     <img src={data.prod.imageUrl} class="card-img" alt="card" style={{height:"100%"}}/>
@@ -18,7 +19,8 @@ function CartCard({data}){
                                 </div>
                                 </div>
                             </div>
-                            </div>
+        </div>
+        </>
     )
 }
 
