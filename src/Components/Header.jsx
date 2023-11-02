@@ -7,17 +7,20 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 
 
-function Header({data}) {
+function Header({data,  openModal, closeModal,isModalOpen, id, setId, Loggedin, setLoggedIn}) {
   const navigate = useNavigate();
 
   function showCart(){
-    navigate('/cart',{ state: data })
+    if(id==-1)
+    {openModal();}
+    else
+    {
+      navigate('/cart',{ state: data })
+    }
 
   }
 
-  const [id,setId] = useState(0)
 
-console.log("Id",id);
   
 
   return (
@@ -35,12 +38,12 @@ console.log("Id",id);
 
         <div  className="col-md-1 mt-auto mb-auto p-0">
         <img src='download.png' height="25vw" width="25vw" /><span>
-        <p>₹{data.totalValue}</p>
+        {Loggedin && (<p>₹{data.totalValue}</p>)}
           <button type="button" class="btn" style={{width:"5vw", padding:"0px"}} onClick={showCart}>My Cart</button> </span>
         </div> 
 
         <div  className="col-md-auto mt-auto mb-auto" >
-          <LoginModal  setId={setId}/>
+          <LoginModal  setId={setId} openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>
         </div>
 
       </div>

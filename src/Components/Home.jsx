@@ -5,16 +5,11 @@ import Category from './Category';
 import ProdList from './ProdList';
 import React, { useState, useEffect } from 'react';
 
-function Home(){
+function Home({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, Loggedin, setLoggedIn}){
     const [productData, setProductData] = useState({});
-  const [cartData, setCartData] = useState({});
 
-  const handleAddToCart = (data) => {
-    // Handle the data received from the Card component, e.g., add it to the cart
-    setCartData(data);
-    
-  };
-  console.log("CART DATA",cartData);
+  
+
   const categories = ["Vegetables", "Fruits"]; // Add all your categories here
   // const products = []
 
@@ -35,9 +30,7 @@ function Home(){
 
   const getProductlist = async (category) => {
     try {
-      // if(category=="cat1"){
-      //   return products
-      // }
+
       
       const response = await fetch(`http://localhost:8080/category/name/${category}`, {
         method: "GET",
@@ -57,10 +50,11 @@ function Home(){
       console.error("Error:", error);
     }
   };
-
+  console.log("Home Id",id);
+console.log("Home",Loggedin);
   return (
     <div className="App container-fluid" style={{ marginBottom: "200px" }}>
-      <Header data={cartData}/>
+      
       <hr style={{ marginTop: "-5px" }} />
       <div style={{ padding: "0px 110px" }}>
         <Banner />
@@ -76,7 +70,7 @@ function Home(){
         <Category />
         </div>
         {categories.map((category, index) => (
-          <ProdList key={index} categoryName={category} onAddToCart={handleAddToCart} productList={productData[category] || []} />
+          <ProdList key={index} openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} categoryName={category} onAddToCart={handleAddToCart} id={id} setId={setId} productList={productData[category] || []} />
         ))}
         </div>
       </div>
