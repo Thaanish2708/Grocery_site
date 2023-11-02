@@ -27,6 +27,20 @@ function App() {
     setCartData(data);
     
   };
+  // When your app initializes (e.g., on page load or when your app starts)
+const storedUserAuth = localStorage.getItem('userAuth');
+if (storedUserAuth) {
+  // Parse the JSON string back to an object
+  const userAuth = JSON.parse(storedUserAuth);
+
+  // Now, you have the user ID and login status
+  const { userId, loggedIn } = userAuth;
+
+  // Set the user ID and login status in your React state
+  setId(userId);
+  setLoggedIn(loggedIn);
+}
+
   return(
     <Router>
     <Header data={cartData}  openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>

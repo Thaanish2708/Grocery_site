@@ -116,6 +116,11 @@ function LoginModal({setId,openModal, closeModal,isModalOpen, Loggedin, setLogge
             setId(userid)
             setName(name1)
             setLoggedIn(true)
+            // After successful login
+            // After a successful login, set both user ID and login status in localStorage
+localStorage.setItem('userAuth', JSON.stringify({ userId:userid, loggedIn: true }));
+
+
             setWrongpass(false)
             closeModal();
         }
