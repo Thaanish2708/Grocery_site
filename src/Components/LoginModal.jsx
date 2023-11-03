@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './LoginModal.css'; // Create a new CSS file for your custom styles
 
 function LoginModal({setId,openModal, closeModal,isModalOpen, Loggedin, setLoggedIn}) {
@@ -10,6 +10,19 @@ function LoginModal({setId,openModal, closeModal,isModalOpen, Loggedin, setLogge
   const [name, setName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message,setMessage] = useState(false)
+  useEffect(() => {
+    const storedUserAuth = localStorage.getItem('userAuth');
+    if (storedUserAuth) {
+      
+      const userAuth = JSON.parse(storedUserAuth);
+      console.log("Login Modal",userAuth);
+      const { userId, loggedIn, name } = userAuth;
+      setId(userId);
+      setName(name);
+      console.log(name);
+    }
+  }, [name]);
+
 
 
   const handleEmailChange = (e) => {
@@ -118,7 +131,7 @@ function LoginModal({setId,openModal, closeModal,isModalOpen, Loggedin, setLogge
             setLoggedIn(true)
             // After successful login
             // After a successful login, set both user ID and login status in localStorage
-localStorage.setItem('userAuth', JSON.stringify({ userId:userid, loggedIn: true }));
+            localStorage.setItem('userAuth', JSON.stringify({ userId:userid, loggedIn: true, namete:name1 }));
 
 
             setWrongpass(false)

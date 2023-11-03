@@ -27,26 +27,27 @@ function App() {
     setCartData(data);
     
   };
-  // When your app initializes (e.g., on page load or when your app starts)
-const storedUserAuth = localStorage.getItem('userAuth');
-if (storedUserAuth) {
-  // Parse the JSON string back to an object
-  const userAuth = JSON.parse(storedUserAuth);
 
-  // Now, you have the user ID and login status
-  const { userId, loggedIn } = userAuth;
+useEffect(() => {
+  const storedUserAuth = localStorage.getItem('userAuth');
 
-  // Set the user ID and login status in your React state
-  setId(userId);
-  setLoggedIn(loggedIn);
-}
+  if (storedUserAuth) {
+    const userAuth = JSON.parse(storedUserAuth);
+    console.log(userAuth);
+    const { userId, loggedIn, name } = userAuth;
+    setId(userId);
+    setLoggedIn(loggedIn);
+    console.log(name);
+
+  }
+}, []);
 
   return(
     <Router>
     <Header data={cartData}  openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>
       <Routes>
         <Route path="/" element={<Home openModal={openModal} handleAddToCart={handleAddToCart} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
-        <Route path="/cart" element={<Cart openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
+        <Route path="/cart" element={<Cart openModal={openModal} handleAddToCart={handleAddToCart} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
 
       </Routes>
     </Router>

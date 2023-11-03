@@ -4,7 +4,7 @@ import CartCard from "./CartCard";
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react";
 
-function Cart({openModal, closeModal, isModalOpen, id, setId, Loggedin, setLoggedIn}) {
+function Cart({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, Loggedin, setLoggedIn}) {
 
     const location = useLocation();
     const data = location.state
@@ -18,14 +18,8 @@ function Cart({openModal, closeModal, isModalOpen, id, setId, Loggedin, setLogge
     const [qty, setQty] = useState(0);
 
     const [hover, setHover] = useState(false);
-
-  const handleAddToCart = (data) => {
-    // Handle the data received from the Card component, e.g., add it to the cart
-    setCartData(data);
-    
-  };
   
-console.log(id);
+
     console.log("cart",cartItems);
 
     function onHoverIn(){
@@ -37,8 +31,10 @@ console.log(id);
     }
 
     useEffect(() => {
-        const getcart = async (userId ) => {
+        const getcart = async ( ) => {
           try {
+
+            console.log("inside cart",id);
             
             const response = await fetch(`http://localhost:8080/users/${id}/cart`, {
               method: "GET",
@@ -46,6 +42,8 @@ console.log(id);
       
             if (response.status === 200) {
                 const data =  await response.json();
+                console.log("refresh",data);
+                handleAddToCart(data)
                 setTotalPrice(data.totalValue);
                 console.log("sdf",data);
                 console.log(data.cartItemsCount);
@@ -79,7 +77,7 @@ console.log(id);
         };
         
         getcart();
-        }, []);
+        }, [id]);
     
     return (
         <div className="App container-fluid" style={{ marginBottom: "200px" }}>

@@ -6,10 +6,10 @@ function CartCard({data}){
         <>
         <div class="card m-0" style={{maxWidth: "100vw", borderLeft: "none", borderRight: "none", borderRadius:"0px",borderTop:"none"}}>
                             <div class="row no-gutters p-2 ">
-                                <div class="col-md-4 " >
+                                <div class="col-md-5 " >
                                     <img src={data.prod.imageUrl} class="card-img" alt="card" style={{height:"100%"}}/>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-7">
                                 <div class="card-body" style={{textAlign:"left"}}>
                                     <h5 class="card-title">{data.prod.name}</h5>
                                     <p class="card-text" style={{fontWeight:"bolder", fontSize:"20px"}}> ₹{data.prod.price} </p>
