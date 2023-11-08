@@ -22,3 +22,53 @@
     z-index: 2;
   }
   
+/* Style The Dropdown Button */
+.dropbtn {
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  background-color: white;
+}
+
+/* Change color of dropdown links on hover */
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content a:hover {background-color: #f1f1f1}
+/* Change the background color of the dropdown button when the dropdown content is shown */
+
+.empty {
+  background-image: url('D:\Full Stack Projects\grocsite\Grocery_site\public\cartempty.png');
+  background-size: contain;     /* Cover the entire div with the background image */
+  background-position: center;/* Center the background image horizontally and vertically */
+  background-repeat: no-repeat;
+  margin-top: 10%;
+}

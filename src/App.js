@@ -1,15 +1,12 @@
 import './App.css';
 import Header from './Components/Header';
-import Banner from './Components/Banner';
-import Category from './Components/Category';
-import ProdList from './Components/ProdList';
 import React, { useState, useEffect } from 'react';
 import Home from './Components/Home';
 import Cart from './Components/Cart'
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-
+import Search from './Components/Search';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import CheckoutComp from './Components/CheckoutComp';
 function App() {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -28,27 +25,30 @@ function App() {
     
   };
 
+ 
+
 useEffect(() => {
   const storedUserAuth = localStorage.getItem('userAuth');
 
   if (storedUserAuth) {
     const userAuth = JSON.parse(storedUserAuth);
-    console.log(userAuth);
+    // console.log(userAuth);
     const { userId, loggedIn, name } = userAuth;
     setId(userId);
     setLoggedIn(loggedIn);
-    console.log(name);
 
   }
 }, []);
+  
 
   return(
     <Router>
-    <Header data={cartData}  openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>
+    <Header data={cartData}  openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn} />
       <Routes>
         <Route path="/" element={<Home openModal={openModal} handleAddToCart={handleAddToCart} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
-        <Route path="/cart" element={<Cart openModal={openModal} handleAddToCart={handleAddToCart} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
-
+        <Route path="/cart" element={<Cart openModal={openModal} handleAddToCart={handleAddToCart} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn} cartData={cartData}/>} />
+        <Route path="/search" element={<Search openModal={openModal} handleAddToCart={handleAddToCart} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
+        <Route path="/placeOrder" element={<CheckoutComp openModal={openModal} cartData={cartData} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
       </Routes>
     </Router>
   )
