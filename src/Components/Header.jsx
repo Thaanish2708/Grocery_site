@@ -21,12 +21,27 @@ function Header({data,  openModal, closeModal,isModalOpen, id, setId, Loggedin, 
   }
 
 
+// const buttonStyle = {
+//   background: 'linear-gradient(45deg, #2196F3, #4CAF50)',
+//   color: 'white',
+//   padding: '10px 20px',
+//   border: 'none',
+//   borderRadius: '5px',
+//   cursor: 'pointer',
+//   transition: 'background-color 0.3s',
+// };
+  const handleLogout = () => {
+    localStorage.clear();
+    // Add your logout logic here, e.g., redirect to the login page
+  };
+
+
   
 
   return (
-    
-      <div class="row m-0 ">
-        <div className='col-md-auto' style={{height:"15%",marginRight:"15px"}}>
+    <div className='container-fluid p-0 m-0'>
+      <div class="row m-0 p-0" style={{display:"flex"}}>
+        <div className='col-md-1' style={{height:"15%",marginRight:"15px"}}>
           <img src="./logo.png" alt="logo" height="100vw" />
         </div>
         
@@ -42,9 +57,15 @@ function Header({data,  openModal, closeModal,isModalOpen, id, setId, Loggedin, 
           <button type="button" class="btn" style={{width:"5vw", padding:"0px"}} onClick={showCart}>My Cart</button> 
         </div> 
 
-        <div  className="col-md-auto mt-auto mb-auto" >
+        <div  className="col-md-1 mt-auto mb-auto" >
           <LoginModal  setId={setId} openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>
         </div>
+
+        <div className="col-md-auto mt-auto mb-auto p-0 m-0 ">
+        <button onClick={handleLogout} className="btn btn-primary ">LogOut</button>
+        </div>
+
+      </div>
 
       </div>
         

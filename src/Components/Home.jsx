@@ -32,7 +32,7 @@ function Home({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, L
     try {
 
       
-      const response = await fetch(`http://localhost:8080/category/name/${category}`, {
+      const response = await fetch(`http://localhost:8090/category/name/${category}`, {
         method: "GET",
       });
 

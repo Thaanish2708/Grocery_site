@@ -90,12 +90,7 @@ console.log(id);
             <div className="container-fluid">
                 <div className="row p-0 m-0">
                 <div className="col-md-8 d-none d-md-block">
-                    {cartItems.length > 0 &&
-                        cartItems.map((p, index) => {
-                        console.log("p", p);
-                        return <CartCard data={p} key={index} />;
-                        })}
-                    </div>
+                </div>
 
                     <div className="col-md-4 col-sm-12 p-0 m-0">
                         <div style={{
