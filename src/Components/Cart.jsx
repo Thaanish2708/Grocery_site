@@ -121,7 +121,7 @@ function Cart({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, L
                                 fontSize: "16px",
                                 transition: "background-color 0.3s",
                                 border: "1px solid rgb(49, 134, 22)",
-                            }} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} onClick={()=>{navigate('/placeOrder')}}>Proceed to Pay</button>
+                            }} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} onClick={()=>{navigate('/placeOrder')}} disabled={cartData.cartItemsCount==0}>Proceed to Pay</button>
 
                         </div>
                         <div style={{                            

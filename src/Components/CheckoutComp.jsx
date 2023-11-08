@@ -3,7 +3,7 @@ import OrderCard from './OrderCard';
 
 function CheckoutComp(props) {
   const [fetchedProductData, setFetchedProductData] = useState([]); // Use state to store fetched product data
-
+  const [page,setPage] = useState(3)
   useEffect(() => {
     const getCartData = async () => {
       try {
@@ -40,11 +40,16 @@ function CheckoutComp(props) {
   return (
     <div className="container-fluid" style={{padding: "0px 110px"}}>
       <div className="row p-0 m-0 ">
-        <div className="col-md-7 d-none d-md-block"></div>
-        <div className="col-md-5 d-none d-md-block" style={{ backgroundColor:"#f1f1f1", paddingBottom:"2%"}}>
+        <div className="col-md-8 d-none d-md-block">
+          {page=== 1? <p> 1</p> : page===2 ? <p> 2</p>: <p>3</p>}
+        </div>
+        <div className="col-md-4 d-none d-md-block" style={{ backgroundColor:"#f1f1f1",overflowY: "auto", maxHeight: "78vh"}}>
           {fetchedProductData.map((prod, index) => {
             return <OrderCard data={prod} key={index} />;
           })}
+          <br />
+          <p class="card-text" style={{display:"flex", justifyContent:"space-between",marginLeft:"5%"}}><b>Total: </b><span style={{marginRight:"12%"}}><b>₹{props.cartData.totalValue}</b></span> </p>
+          <br />
         </div>
       </div>
     </div>
