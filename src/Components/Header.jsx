@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 
 
+
 function Header({data,  openModal, closeModal,isModalOpen, id, setId, Loggedin, setLoggedIn}) {
   const navigate = useNavigate();
 
@@ -19,33 +20,51 @@ function Header({data,  openModal, closeModal,isModalOpen, id, setId, Loggedin, 
     }
 
   }
-
-
+  const [search1,setSearch] = useState('')
+  const handleSearchChange = async(e) => {
+    setSearch(e.target.value);
+    if(e.target.value===''){
+      navigate('/')
+    }
+    else{const response = await fetch(`http://localhost:8080/products/search?query=${e.target.value}`, {
+          method: "GET",
+        });
   
-
+        if (response.status === 200) {
+          
+            const data3 =  await response.json();
+            // console.log(data3);
+            navigate('/search',{state:data3})
+  }};}
+  
+  
   return (
-    
-      <div class="row m-0 ">
-        <div className='col-md-auto' style={{height:"15%",marginRight:"15px"}}>
+    <div className='container-fluid'>
+      <div className="row m-0 ">
+        <div className='col-md-auto' onClick={()=> {navigate('/');setSearch('')}} style={{height:"15%",marginRight:"15px"}}>
           <img src="./logo.png" alt="logo" height="100vw" />
         </div>
         
 
-        <form class="col-md-8 mt-auto mb-auto" role="search">
-          <input type="search" class="form-control text" placeholder="Search..." aria-label="Search" width="100vw" />
+        <form class="col-md-8 mt-auto mb-auto" style={{marginRight:"2%"}} role="search">
+          <input type="search" value = {search1} class="form-control text" placeholder="Search..." aria-label="Search" width="100vw" onChange={handleSearchChange}/>
         </form>
         
 
-        <div  className="col-md-1 mt-auto mb-auto p-0">
-        <img src='download.png' height="25vw" width="25vw" /><span>
-        {Loggedin && (<p>₹{data.totalValue}</p>)}
-          <button type="button" class="btn" style={{width:"5vw", padding:"0px"}} onClick={showCart}>My Cart</button> </span>
+        <div  className="col-md-1 mt-auto mb-auto p-0" style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
+        <img src='cart.png' height="25vw" width="25vw" />
+        {Loggedin && (<p style={{margin:"0px"}}>₹{data.totalValue}</p>)}
+          <button type="button" class="btn" style={{width:"5vw", padding:"0px"}} onClick={showCart}>My Cart</button> 
         </div> 
 
         <div  className="col-md-auto mt-auto mb-auto" >
-          <LoginModal  setId={setId} openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>
+          <LoginModal setId={setId} openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} Loggedin={Loggedin} setLoggedIn={setLoggedIn} id={id}/>
         </div>
+       
 
+
+      </div>
+      <hr style={{ marginTop: "0px" }} />
       </div>
         
   );

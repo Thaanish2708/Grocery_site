@@ -38,24 +38,20 @@ function Home({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, L
 
       if (response.status === 200) {
           const data =  await response.json();
-          console.log("Products", data);
+          
           return data;
         // Reset the form or perform any other actions as needed
       } else {
-          console.log(response);
-          console.log(response.status);
+          
         console.error("Failed to add employee.");
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  console.log("Home Id",id);
-console.log("Home",Loggedin);
+
   return (
     <div className="App container-fluid" style={{ marginBottom: "200px" }}>
-      
-      <hr style={{ marginTop: "-5px" }} />
       <div style={{ padding: "0px 110px" }}>
         <Banner />
         <div className='row catlist'>
@@ -73,7 +69,9 @@ console.log("Home",Loggedin);
           <ProdList key={index} openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} categoryName={category} onAddToCart={handleAddToCart} id={id} setId={setId} productList={productData[category] || []} />
         ))}
         </div>
+        
       </div>
+      
     
   );
 }
