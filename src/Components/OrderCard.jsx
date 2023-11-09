@@ -10,8 +10,8 @@ console.log("d1",data);
                                     <img src={data.productData.imageUrl} class="card-img" alt="card" style={{height:"100%",borderRadius:"15%"}}/>
                                 </div>
                                 <div class="col-md-8 p-0">
-                                <div class="card-body" style={{textAlign:"left", padding:"0px"}}>
-                                    <p class="card-title">{data.productData.name}</p>
+                                <div class="card-body m-0" style={{textAlign:"left", padding:"0px"}}>
+                                    <p class="card-title" style={{margin:"0px", marginTop:"5px"}}>{data.productData.name}</p>
                                     <p class="card-text" style={{display:"flex", justifyContent:"space-between"}} ><small class="text-muted">Quantity: {data.Qty}</small><span>₹{data.productData.price*data.Qty}</span> </p>
                                 </div>
                                 </div>

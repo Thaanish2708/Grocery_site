@@ -66,7 +66,7 @@
 /* Change the background color of the dropdown button when the dropdown content is shown */
 
 .empty {
-  background-image: url('D:\Full Stack Projects\grocsite\Grocery_site\public\cartempty.png');
+  background-image: url('/public/cartempty.png');
   background-size: contain;     /* Cover the entire div with the background image */
   background-position: center;/* Center the background image horizontally and vertically */
   background-repeat: no-repeat;
