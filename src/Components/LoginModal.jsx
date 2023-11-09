@@ -136,7 +136,7 @@ function LoginModal({setId,openModal, closeModal,isModalOpen, Loggedin, setLogge
             
         
       
-      if(data2 != "Incorrect Password" )
+      if(data2)
         {
             // get userid from B (addcart userid)
             
