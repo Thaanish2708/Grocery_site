@@ -5,7 +5,7 @@ function OrderHisCard({order,handleclick}){
 // console.log("d1",data);
     return(
         <>
-        <div className="card col-12" onClick={()=>{handleclick(order.id)}} style={{backgroundColor:"#f1f1f1", borderRadius: "50%", maxWidth: "35vw",cursor:"pointer" ,borderLeft: "none", borderRight: "none", borderRadius:"2%",borderTop:"none", marginTop:"2%"}}>
+        <div className="card col-12" onClick={()=>{handleclick(order.id)}} style={{backgroundColor:"#f1f1f1", borderRadius: "50%", maxWidth: "45vw",cursor:"pointer" ,borderLeft: "none", borderRight: "none", borderRadius:"2%",borderTop:"none", marginTop:"2%"}}>
                             <div class="row p-2">
                                 {/* <div class="col-md-4 p-2" style={{height:"70px",width:"70px"}} >
                                     <img src={data.order.imageUrl} class="card-img" alt="card" style={{height:"100%",borderRadius:"15%"}}/>

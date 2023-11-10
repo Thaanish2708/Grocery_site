@@ -55,15 +55,11 @@ function Home({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, L
       <div style={{ padding: "0px 110px" }}>
         <Banner />
         <div className='row catlist'>
-        <Category />
-        <Category />
-        <Category />
-        <Category />
-        <Category />
-        <Category />
-        <Category />
-        <Category />
-        <Category />
+        <Category name={"Vegetables"} />
+        <Category name={"Fruits"} />
+        <Category name={"Vegetables"} />
+        <Category name={"Vegetables"} />
+        <Category name={"Vegetables"} />
         </div>
         {categories.map((category, index) => (
           <ProdList key={index} openModal={openModal} closeModal={closeModal} isModalOpen={isModalOpen} categoryName={category} onAddToCart={handleAddToCart} id={id} setId={setId} productList={productData[category] || []} />
