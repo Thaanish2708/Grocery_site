@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 function OrderCard({data}){
-console.log("d1",data);
+// console.log("d1",data);
     return(
         <>
         <div class="card" style={{maxWidth: "100vw",borderLeft: "none", borderRight: "none", borderRadius:"1%",borderTop:"none", marginTop:"5%",backgroundColor:"#f1f1f1"}}>

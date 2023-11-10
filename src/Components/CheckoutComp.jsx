@@ -1,137 +1,183 @@
 import { useState, useEffect } from "react";
 import OrderCard from './OrderCard';
-import "./Checkout.css"
+import "./Checkout.css";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function CheckoutComp(props) {
-  const [fetchedProductData, setFetchedProductData] = useState([]); // Use state to store fetched product data
-
+  const navigate = useNavigate()
+  const [fetchedProductData, setFetchedProductData] = useState([]);
   const [details, setDetails] = useState({
-    email:"",
-    phone:"",
-    fname:"",
-    lname:"",
-    flat:"",
-    street:"",
-    city:"",
-    state:"",
-    zipcode:""
-  })
+    email: "",
+    phone: "",
+    fname: "",
+    lname: "",
+    flat: "",
+    street: "",
+    city: "",
+    state: "",
+    zipcode: ""
+  });
 
-  const [page,setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
   const [hover, setHover] = useState(false);
   const [hoverBack, setHoverBack] = useState(false);
   const [hoverContinue, setHoverContinue] = useState(false);
   const [hoverPay, setHoverPay] = useState(false);
+  const [MRP,setMRP] = useState(0)
+  const [GST,setGST] = useState(0)
+  const [GTotal,setGTotal] = useState(0)
 
-
-  function onHoverIn(){
-    setHover(true)
-}
-
-function onHoverOut(){
-    setHover(false)
-}
-
-const isDetailsFilled = () => {
-  return (
-    details.email !== "" &&
-    details.phone !== "" &&
-    details.fname !== "" &&
-    details.lname !== "" &&
-    details.flat !== "" &&
-    details.street !== "" &&
-    details.city !== "" &&
-    details.state !== "" &&
-    details.zipcode !== ""
-  );
-};
-
-
-const [paymentMethod, setPaymentMethod] = useState(''); // State to store the selected payment method
-
-const handlePaymentMethodChange = (method) => {
-  setPaymentMethod(method);
-};
-
-const handlePayment = () => {
-  if (paymentMethod === 'upi') {
-    // Handle UPI payment logic (e.g., open a UPI payment app)
-    alert('Redirect to UPI payment');
-  } else if (paymentMethod === 'cash') {
-    // Handle cash payment logic (e.g., display instructions)
-    alert('Cash payment selected. Instructions for cash payment will be provided.');
+  function onHoverIn() {
+    setHover(true);
   }
-};
 
-const handleInputChange = (e) => {
-  const { name, value } = e.target;
-  setDetails({
-    ...details,
-    [name]: value,
-  });
-};
+  function onHoverOut() {
+    setHover(false);
+  }
+
+  const isDetailsFilled = () => {
+    return (
+      details.email !== "" &&
+      details.phone !== "" &&
+      details.fname !== "" &&
+      details.lname !== "" &&
+      details.flat !== "" &&
+      details.street !== "" &&
+      details.city !== "" &&
+      details.state !== "" &&
+      details.zipcode !== ""
+    );
+  };
+
+  const [paymentMethod, setPaymentMethod] = useState('');
+const [loading, setLoading] = useState(true);
+  const handlePaymentMethodChange = (method) => {
+    setPaymentMethod(method);
+  };
+
+  const handlePayment = async () => {
+    try {
+      if (paymentMethod === 'upi') {
+        alert('Redirect to UPI payment');
+      } else if (paymentMethod === 'cash') {
+        alert('Cash payment selected. Instructions for cash payment will be provided.');
+      }
+      
+
+      const response = await fetch(`http://localhost:8080/orders/${props.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(props.cartData)
+      });
+
+      if (response.status === 200) {
+        const data3 = await response.text();
+        navigate('/orderHistory')
+      }
+      
+    } catch (error) {
+
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setDetails({
+      ...details,
+      [name]: value,
+    });
+  };
+
+  useEffect(() => {
+    const { id, cartData } = props;
+  
+    if (cartData && cartData.cartItems && cartData.cartItems.length > 0) {
+      localStorage.setItem("checkoutProps", JSON.stringify({ id, cartData }));
+    }
+  }, [props.id, props.cartData]);
+  
 
   useEffect(() => {
     const getCartData = async () => {
       try {
-        console.log("1111",props.cartData);
         const data = [];
-        for (const prod of props.cartData.cartItems) {
-          const response = await fetch(`http://localhost:8080/products/${prod.productId}`, {
-            method: "GET",
+        const storedProps = localStorage.getItem("checkoutProps");
+    
+        if (storedProps) {
+          const { cartData } = JSON.parse(storedProps);
+          console.log("cartData.cartItems:", cartData.cartItems); // Add this line
+          setMRP(cartData.totalValue)
+          setGST((cartData.totalValue * 0.18).toFixed(2))
+          setGTotal(cartData.totalValue+(cartData.totalValue * 0.18)+(cartData.totalValue > 500 ? 0 : 50))
+          const promises = cartData.cartItems.map(async (prod) => {
+            const response = await fetch(`http://localhost:8080/products/${prod.productId}`, {
+              method: "GET",
+            });
+    
+            if (response.status === 200) {
+              const productData = await response.json();
+              data.push({ "productData": productData, "Qty": prod.quantity });
+            } else {
+              console.error("Failed to fetch product data for productId:", prod.productId);
+            }
           });
-
-          if (response.status === 200) {
-            const productData = await response.json();
-            data.push({"productData":productData,"Qty":prod.quantity});
-          } else {
-            console.error("Failed to fetch product data.");
-          }
+    
+          await Promise.all(promises);
+    
+          setFetchedProductData(data);
+          setLoading(false);
+        } else {
+          console.error("No stored props found in localStorage.");
+          setLoading(false); // Set loading to false even if there's an error
         }
-
-        // Set the fetched product data in state
-        setFetchedProductData(data);
-
       } catch (error) {
         console.error("Error:", error);
+        setLoading(false); // Set loading to false in case of an error
       }
     };
-
+    
+  
+    console.log("Before getCartData");
     getCartData();
-  }, []);
+    console.log("After getCartData");
+  }, [props.id]);
+  
 
-  console.log("Fetched Product Data:", fetchedProductData); // Now you can log it when it's available
-
-  console.log("Order Placed");
-
+  if (loading) {
+    return <p>Loading...</p>; // Render a loading message or spinner while fetching data
+  }
+  console.log("Fetched Product Data:", fetchedProductData);
   return (
-    <div className="container-fluid" style={{padding: "0px 110px"}}>
+    <div className="container-fluid" style={{padding: "0px 110px",  marginTop:"70px"}}>
       <div className="row p-0 m-0 ">
+      <div className="col-md-8">
       <div className="menu-tabs">
 
         <div
           className={`menu-tab`}
-          style={{backgroundColor: page === 1 ? "rgb(49, 134, 22)" : '', borderRadius:"10px"}}
+          style={{backgroundColor: "rgb(49, 134, 22)", borderRadius:"10px",color:"white"}}
           >
           Shipping  
         </div>
         <div
           className={`menu-tab`}
-          style={{backgroundColor: page === 2 ? "rgb(49, 134, 22)" : '', borderRadius:"10px"}}
+          style={{backgroundColor: page >= 2 ? "rgb(49, 134, 22)" : '', borderRadius:"10px",color: page >= 2?"white":''}}
         >
           Delivery
         </div>
         <div
           className={`menu-tab`}
-          style={{backgroundColor: page === 3 ? "rgb(49, 134, 22)" : '', borderRadius:"10px"}}
+          style={{backgroundColor: page >= 3 ? "rgb(49, 134, 22)" : '', borderRadius:"10px",color: page >= 3?"white":''}}
         >
           Payment
         </div>
       </div>
 
 
-        <div className="col-md-8">
+        
           {page=== 1? 
           <div> 
             <div style={{marginTop:"10px",
@@ -279,11 +325,11 @@ const handleInputChange = (e) => {
             return <OrderCard data={prod} key={index} />;
           })}
           <br />
-          <p class="card-text" style={{display:"flex", justifyContent:"space-between",margin:"0px",marginLeft:"5%"}}><b>MRP: </b><span style={{marginRight:"12%"}}>₹{props.cartData.totalValue}</span> </p>
-          <p class="card-text" style={{display:"flex", justifyContent:"space-between",margin:"0px",marginLeft:"5%"}}><b>GST: </b><span style={{marginRight:"12%"}}>₹{props.cartData.totalValue}</span> </p>
-          <p class="card-text" style={{display:"flex", justifyContent:"space-between",margin:"0px",marginLeft:"5%"}}><b>Delivery Fee: </b><span style={{marginRight:"12%"}}>₹{props.cartData.totalValue}</span> </p>
+          <p class="card-text" style={{display:"flex", justifyContent:"space-between",margin:"0px",marginLeft:"5%"}}><b>MRP: </b><span style={{marginRight:"12%"}}>₹{MRP}</span> </p>
+          <p class="card-text" style={{display:"flex", justifyContent:"space-between",margin:"0px",marginLeft:"5%"}}><b>GST: </b><span style={{marginRight:"12%"}}>₹{GST}</span> </p>
+          <p class="card-text" style={{display:"flex", justifyContent:"space-between",margin:"0px",marginLeft:"5%"}}><b>Delivery Fee: </b><span style={{marginRight:"12%"}}>₹{props.cartData.totalValue > 500 ? 0 : 50}</span> </p>
           <hr />
-          <p class="card-text" style={{display:"flex", justifyContent:"space-between",margin:"0px",marginLeft:"5%"}}><b>Grand Total: </b><span style={{marginRight:"12%"}}>₹{props.cartData.totalValue}</span> </p>
+          <p class="card-text" style={{display:"flex", justifyContent:"space-between",margin:"0px",marginLeft:"5%"}}><b>Grand Total: </b><span style={{marginRight:"12%"}}><b>₹{GTotal}</b></span> </p>
         </div>
       </div>
     </div>

@@ -36,6 +36,15 @@ function Header({data,  openModal, closeModal,isModalOpen, id, setId, Loggedin, 
             // console.log(data3);
             navigate('/search',{state:data3})
   }};}
+  const isPlaceOrderRoute = () => {
+    return window.location.pathname === '/placeOrder';
+  };
+
+  // Conditionally render the header based on the route
+  if (isPlaceOrderRoute()) {
+    // Do not render the header for "placeOrder" route
+    return null;
+  }
   
   
   return (

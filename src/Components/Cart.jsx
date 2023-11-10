@@ -12,9 +12,31 @@ function Cart({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, L
     const data = location.state
     const navigate = useNavigate();
     const [cartItems, setCartItems] = useState([]);
+    const clearCartButtonStyle = {
+        backgroundColor: '#ff4d4d', // Red color for emphasis
+        color: '#fff', // White text for contrast
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        transition: 'background-color 0.1s',
+      };
+      
+      const clearCartButtonHoverStyle = {
+        backgroundColor: '#e60000',
+        color: '#fff', // White text for contrast
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        transition: 'background-color 0.3s', // Darker red on hover
+      };
 
 
     const [hover, setHover] = useState(false);
+    const [clearcarthover, setclearcartHover] = useState(false);
   
     const [cartLen,setCartLen] = useState(0)
 
@@ -60,6 +82,7 @@ function Cart({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, L
                 // Use Promise.all to wait for all async requests to complete
                 const products = await Promise.all(promises);
                 setCartItems(products);
+                console.log("cart",products);
                 // console.log("1111",cartItems,products);
                 
 
@@ -88,8 +111,18 @@ function Cart({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, L
                 <div className="row p-0 m-0">
                 
                 <div className={`col-md-8 d-none d-md-block ${cartData.cartItemsCount === 0 ? 'empty' : ''}`}>
-                {cartData.cartItemsCount==0 && (<p style={{fontSize:"14px",margin:"-5%"}}><i>Cart is Empty, Add items </i></p>)}
-                    {cartItems.length > 0 &&
+                
+                {(cartData.cartItemsCount===0  || !cartData.cartItemsCount) && (<p style={{fontSize:"14px",margin:"-5%"}}><i>Cart is Empty, Add items </i></p>)}
+                {(cartData.cartItemsCount > 0)&& 
+                (<div style={{display:"flex", justifyContent:"right"}}>  
+                    <button
+                        style={clearcarthover ? clearCartButtonHoverStyle : clearCartButtonStyle}
+                        onMouseEnter={() => setclearcartHover(true)}
+                        onMouseLeave={() => setclearcartHover(false)}>
+                        Clear Cart
+                    </button>
+                </div>)}
+                    {cartItems.length > 0 && 
                         cartItems.map((p, index) => {
                         
                         return <CartCard data={p} key={index} handleAddToCart = {handleAddToCart} id={id} cartLen={cartLen} setCartLen={setCartLen} />
@@ -121,7 +154,7 @@ function Cart({openModal, handleAddToCart, closeModal, isModalOpen, id, setId, L
                                 fontSize: "16px",
                                 transition: "background-color 0.3s",
                                 border: "1px solid rgb(49, 134, 22)",
-                            }} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} onClick={()=>{navigate('/placeOrder')}} disabled={cartData.cartItemsCount==0}>Proceed to Pay</button>
+                            }} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} onClick={()=>{navigate('/placeOrder')}} disabled={cartData.cartItemsCount==0 || !cartData.cartItemsCount}>Proceed to Pay</button>
 
                         </div>
                         <div style={{                            

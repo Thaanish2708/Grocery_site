@@ -13,15 +13,10 @@
     padding: 10px 20px;
     margin-bottom:10px;
     border: 1px solid black;
-    cursor: pointer;
     transition: background-color 0.3s;
     user-select: none; /* Prevent text selection */
   }
   
-  .menu-tab:hover {
-    background-color: #333; /* Background color on hover */
-  }
-
   .menu-line {
     position: absolute;
     bottom: 0;

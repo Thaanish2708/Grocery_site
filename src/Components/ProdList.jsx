@@ -29,7 +29,7 @@ function ProdList({ openModal, closeModal, isModalOpen, categoryName, id,setId, 
 
   return (
     <div style={{ position: "relative" }}>
-      <h4 className='col-md-1'>{categoryName}</h4>
+      <h4 className='col-md-1' style={{textAlign:"left"}}>{categoryName}</h4>
       <Slider {...settings} ref={sliderRef}>
         {productList.map((product, index) => (
           <div key={index} className="card-container">

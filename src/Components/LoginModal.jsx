@@ -170,8 +170,9 @@ function LoginModal({setId,openModal, closeModal,isModalOpen, Loggedin, setLogge
       { Loggedin && <div className="dropdown" style={{display:"flex", position:"relative", flexDirection:"column" ,justifyContent:"center", alignItems:"center" ,padding:"0px"}}> <button  className="dropbtn">  
       <img src='profile.png' height="25vw" width="25vw" /> <p style={{fontWeight:"bold", margin:"0px"}}> {name.charAt(0).toUpperCase() + name.slice(1)} </p> </button>
       <div className="dropdown-content" style={{position:"absolute", top:"100%", left:"10%"}}>
+      <a href="#" onClick={()=>{}}>My Account</a>
+      <a href="#" onClick={()=>{navigate('/orderHistory')}}>My Orders</a>
       <a href="#" onClick={handleLogout}>Logout</a>
-
   </div></div>}
       {isModalOpen && (
         <div className="modal-container">
@@ -271,7 +272,7 @@ function LoginModal({setId,openModal, closeModal,isModalOpen, Loggedin, setLogge
               </button>
               <p className="mt-2" style={{
 cursor: 'pointer',  color:"#516078"}} onClick={() => setIsRegistering(!isRegistering)}>
-                {isRegistering ? <span>Already have an account? <u>Login</u></span> : <span>Don't have an account? <u>Register</u></span>}
+                
               </p>
             </form>
           </div>

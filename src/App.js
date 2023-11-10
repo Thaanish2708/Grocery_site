@@ -6,6 +6,7 @@ import Cart from './Components/Cart'
 import Search from './Components/Search';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import CheckoutComp from './Components/CheckoutComp';
+import OrderHistory from './Components/OrderHistoryComponent';
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
@@ -49,6 +50,7 @@ useEffect(() => {
         <Route path="/cart" element={<Cart openModal={openModal} handleAddToCart={handleAddToCart} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn} cartData={cartData}/>} />
         <Route path="/search" element={<Search openModal={openModal} handleAddToCart={handleAddToCart} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
         <Route path="/placeOrder" element={<CheckoutComp openModal={openModal} cartData={cartData} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
+        <Route path="/orderHistory" element={<OrderHistory openModal={openModal} cartData={cartData} closeModal={closeModal} isModalOpen={isModalOpen} id={id} setId={setId} Loggedin={Loggedin} setLoggedIn={setLoggedIn}/>} />
       </Routes>
     </Router>
   )
